@@ -1,3 +1,15 @@
+const express = require("express");
+const cors = require("cors");
+const axios = require("axios");
+require("dotenv").config();
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// This route sends user questions to Hugging Face's GPT-2 model
 app.post('/api/chat', async (req, res) => {
   const userPrompt = req.body.prompt;
 
@@ -21,4 +33,8 @@ app.post('/api/chat', async (req, res) => {
     console.error("Chatbot error:", err.response?.status, err.response?.data || err.message);
     res.status(500).json({ reply: "Sorry, the travel bot is on a break." });
   }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
